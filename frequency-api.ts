@@ -1,14 +1,17 @@
 const express = require("express");
-const app = express();
+const bodyParser = require("body-parser");
 
 const hostname = "127.0.0.1";
 const port = 3000;
 
+const app = express();
+app.use(bodyParser.text({ extended: true }));
+
 const countFrequencies = (wordsString: string) => {
   const words = cleanInput(wordsString);
 
-  let freqDict = {};
-  words.forEach((word) => {
+  let freqDict: Record<string, number> = {};
+  words.forEach((word: string) => {
     if (!freqDict[word]) {
       freqDict[word] = 1;
     } else {
@@ -19,7 +22,7 @@ const countFrequencies = (wordsString: string) => {
   return freqDict;
 };
 
-const top10Dict = (freqDict) => {
+const top10Dict = (freqDict: { [x: string]: any }) => {
   var items = Object.keys(freqDict).map(function (key: string) {
     return [key, freqDict[key]];
   });
@@ -28,7 +31,7 @@ const top10Dict = (freqDict) => {
   });
   items = items.slice(0, 10);
 
-  const shortDict = {};
+  const shortDict: Record<string, number> = {};
   items.forEach((item) => {
     shortDict[item[0]] = item[1];
   });
@@ -36,14 +39,15 @@ const top10Dict = (freqDict) => {
 };
 
 const cleanInput = (wordsString: string) => {
-  const words = wordsString.split(" ");
+  const words = wordsString.split(/\s+/);
   return words.map((word) => {
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
   });
 };
 
-app.get("/", function (_req, res) {
-  res.end("It works!");
+app.post("/count", function (req: any, res: { end: (arg0: string) => void }) {
+  const freqDict = countFrequencies(req.body);
+  res.end(JSON.stringify(freqDict));
 });
 
 var server = app.listen(port, hostname, function () {
