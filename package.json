@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "@types/node": "^17.0.21"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
+  },
+  "scripts": {
+    "start": "node frequency-api.ts"
+  }
+}
