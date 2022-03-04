@@ -4,6 +4,10 @@ const app = express();
 const hostname = "127.0.0.1";
 const port = 3000;
 
+const countFrequencies = (words: string) => {
+  return { Hund: 2 };
+};
+
 app.get("/", function (_req, res) {
   res.end("It works!");
 });
@@ -11,3 +15,5 @@ app.get("/", function (_req, res) {
 var server = app.listen(port, hostname, function () {
   console.log("Example app listening at http://%s:%s", hostname, port);
 });
+
+exports.countFrequencies = countFrequencies;
